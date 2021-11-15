@@ -30,12 +30,11 @@ const RatesScreen = () => {
 
   const sortRates = () => {
     setSort(!sort);
+    loadRates();
 
     const sortRates = rates.sort((a, b) => {
-      const less =
-        parseFloat(a.rateUsd).toFixed(2) < parseFloat(b.rateUsd).toFixed(2);
-      const grater =
-        parseFloat(a.rateUsd).toFixed(2) > parseFloat(b.rateUsd).toFixed(2);
+      const less = parseFloat(a.rateUsd) < parseFloat(b.rateUsd);
+      const grater = parseFloat(a.rateUsd) > parseFloat(b.rateUsd);
 
       if (less) {
         return -1;
@@ -108,7 +107,7 @@ const RatesScreen = () => {
             placeholderTextColor={colors.DARK_TEXT}
           />
         </StyledViewInput>
-        <StyledSortButton onPress={sortRates}>
+        <StyledSortButton>
           <Label
             textAlign='center'
             fontWeight={500}
@@ -117,12 +116,14 @@ const RatesScreen = () => {
           >
             Sort By
           </Label>
+        </StyledSortButton>
+        <StyledButtonAZ onPress={sortRates}>
           <IconFontAwesome
             name={sort ? 'sort-alpha-up' : 'sort-alpha-down'}
             size={16}
             color={'#FFF'}
           />
-        </StyledSortButton>
+        </StyledButtonAZ>
       </StyledHeader>
 
       {errorMessage && (
@@ -158,9 +159,21 @@ const StyledHeader = styled.View`
 `;
 
 const StyledSortButton = styled.TouchableOpacity`
-  width: 30%;
+  width: 70px;
   height: 45px;
-  background: ${colors.PRIMARY};
+  background: ${colors.SUCCESS};
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  margin-left: 10px;
+  padding: 10px;
+`;
+
+const StyledButtonAZ = styled.TouchableOpacity`
+  width: 35px;
+  height: 45px;
+  background: ${colors.SUCCESS};
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -170,7 +183,7 @@ const StyledSortButton = styled.TouchableOpacity`
 `;
 
 const StyledViewInput = styled.View`
-  width: 70%;
+  width: 65%;
   height: 45px;
   background: ${colors.WHITE};
   border-radius: 8px;
